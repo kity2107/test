@@ -8,8 +8,9 @@
     "start:dev": "DEBUG=app:* nodemon src/index.js",
     "start:prod": "NODE_ENV=production node src/index.js",
     "test": "jest",
+    "test:e2e": "jest --config ./e2e/jest-e2e.json --forceExit",
     "lint": "eslint src/**",
-    "lint:fix": "eslint src/** --fix"
+    "lint:fix": "eslint src/** --fix "
   },
   "keywords": [],
   "author": "",
@@ -18,9 +19,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "mongodb": "^4.4.1"
+    "mongodb": "^4.4.1",
+    "supertest": "^6.2.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.2.0",
     "eslint": "^8.10.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",

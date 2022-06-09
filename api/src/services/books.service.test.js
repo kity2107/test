@@ -1,23 +1,16 @@
+const { generateManyBook } = require('../fakes/book.fake');
 const BooksService = require('./books.service');
 
-// suplantamos los libros q nos devuelve la base de datos
-const fakeBooks = [
-  {
-    _id: 1,
-    name: 'Harry Poter',
-  },
-];
+const mockGetAll = jest.fn();
 
-const mockSpyGetAll = jest.fn();
-
-const MongoLibStub = {
-  getAll: mockSpyGetAll,
-  create: () => {},
-};
+// const MongoLibStub = {
+//   getAll: mockGetAll,
+//   create: () => {},
+// };
 
 jest.mock('../lib/mongo.lib.js', () =>
   jest.fn().mockImplementation(() => ({
-    getAll: mockSpyGetAll,
+    getAll: mockGetAll,
     create: () => {},
   }))
 );
@@ -32,20 +25,22 @@ describe('Test para nuestro booksService', () => {
 
   describe('test para getBooks', () => {
     test('Deberia retornar una lista de libros', async () => {
-      mockSpyGetAll.mockResolvedValue(fakeBooks);
+      const fakeBooks = generateManyBook(20);
+      mockGetAll.mockResolvedValue(fakeBooks);
       const books = await service.getBooks({});
       console.log(books);
-      expect(books.length).toEqual(1);
-      expect(mockSpyGetAll).toHaveBeenCalled(); //  ---->>le pregunto si fue llamada la funcion espia
-      expect(mockSpyGetAll).toHaveBeenCalledTimes(1); // ---->>le pregunto cuantas veces fue llamado
-      expect(mockSpyGetAll).toHaveBeenCalledWith('books', {}); // -->> con q argumentos fue llamado
+      expect(books.length).toEqual(fakeBooks.length);
+      expect(mockGetAll).toHaveBeenCalled(); //  --->>le pregunto si fue llamada la funcion espia
+      expect(mockGetAll).toHaveBeenCalledTimes(1); // ---->>le pregunto cuantas veces fue llamado
+      expect(mockGetAll).toHaveBeenCalledWith('books', {}); // -->> con q argumentos fue llamado
     });
 
     test('Deberia retornar un libro con el nombre harry poter', async () => {
-      mockSpyGetAll.mockResolvedValue([{ _id: 1, name: 'Harry Poter2' }]);
+      const fakeBooks = generateManyBook(4);
+      mockGetAll.mockResolvedValue(fakeBooks);
       const books = await service.getBooks({});
       console.log(books);
-      expect(books[0].name).toEqual('Harry Poter2');
+      expect(books[0].name).toEqual(fakeBooks[0].name);
     });
   });
 });
