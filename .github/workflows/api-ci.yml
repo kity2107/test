@@ -14,7 +14,7 @@ defaults:
 #armamos la maquina para automatizar
 jobs:
   unit-test:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: action/checkout@v2
