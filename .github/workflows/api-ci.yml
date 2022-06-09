@@ -1,0 +1,32 @@
+name: API CI
+
+#on: [push]     //para un repositorio normal con esto alcanza
+on:
+  push:
+    paths:
+ -"./api/**"
+-".github/workflows/api-ci.yml"
+
+defaults:
+  run:
+    working-directory: ./api
+
+#armamos la maquina para automatizar
+jobs:
+  unit-test:
+    run-on: ubuntu-latest 
+    steps:
+      - name: Checkout
+        uses: action/checkout@v2
+      - name: Setup Node.js
+        uses: action/checkout@v2
+        with:
+          node-version: 14
+          cache: 'npm'
+          cache-dependency-path: ./api/package-lock.json
+      - name: install
+        shell: bash
+        run: npm ci
+      - name: run unit test
+        shell: bash
+        run: npm run test
