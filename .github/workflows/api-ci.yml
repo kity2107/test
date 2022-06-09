@@ -3,9 +3,8 @@ name: API CI
 #on: [push]     //para un repositorio normal con esto alcanza
 on:
   push:
-    paths:
- -"./api/**"
--".github/workflows/api-ci.yml"
+    paths: -"./api/**"
+      -".github/workflows/api-ci.yml"
 
 defaults:
   run:
@@ -17,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: action/checkout@v2
-      - name: Setup Node.js
-        uses: action/checkout@v2
+        uses: actions/checkout@v2
+      - name: Setup Nodejs
+        uses: actions/setup-node@v2
         with:
           node-version: 14
           cache: 'npm'
